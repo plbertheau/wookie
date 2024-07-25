@@ -59,6 +59,8 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
+    implementation project(':domain')
+    implementation project(':data')
 
     // ANDROID
     implementation 'androidx.core:core-ktx:1.13.1'

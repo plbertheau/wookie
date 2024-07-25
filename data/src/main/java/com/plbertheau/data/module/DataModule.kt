@@ -1,10 +1,14 @@
 package com.plbertheau.data.module
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.plbertheau.data.Constants.BASE_URL
 import com.plbertheau.data.repository.WookieMovieListRepositoryImpl
+import com.plbertheau.data.service.CustomEnumDeserializer
 import com.plbertheau.data.service.WookieMovieApi
+import com.plbertheau.domain.model.Genres
 import com.plbertheau.domain.repository.WookieMovieListRepository
 import dagger.Module
 import dagger.Provides

@@ -7,10 +7,8 @@ import retrofit2.http.Headers
 interface WookieMovieApi {
 
     @Headers(
-        "Accept: application/vnd.github+json",
         "Authorization: Bearer Wookie2019"
     )
     @GET("/movies")
-    suspend fun getMoviesList(
-    ): ResultResponse
+    suspend fun getMoviesList(): ResultResponse
 }

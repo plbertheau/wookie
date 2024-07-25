@@ -17,6 +17,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.plbertheau.wookiemovies.ui.screen.BottomNavItem
 import com.plbertheau.wookiemovies.ui.screen.BottomNavigationBar
+import com.plbertheau.wookiemovies.ui.screen.MovieListScreen
+import com.plbertheau.wookiemovies.ui.screen.SearchScreen
 import com.plbertheau.wookiemovies.ui.theme.WookieMoviesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,8 +36,10 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = BottomNavItem.Home.route,
                     ) {
-                        composable(BottomNavItem.Home.route) { Greeting(name = "Android") }
-                        composable(BottomNavItem.Search.route) { /* Search Screen UI */ }
+                        composable(BottomNavItem.Home.route) { MovieListScreen {
+
+                        } }
+                        composable(BottomNavItem.Search.route) { SearchScreen() }
                     }
                 }
             }
@@ -50,22 +54,22 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         modifier = modifier
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WookieMoviesTheme {
-        val navController = rememberNavController()
-
-        Scaffold(bottomBar = { BottomNavigationBar(navController) }) { padding ->
-            NavHost(
-                modifier = Modifier.padding(padding),
-                navController = navController,
-                startDestination = BottomNavItem.Home.route,
-            ) {
-                composable(BottomNavItem.Home.route) { Greeting(name = "Android") }
-                composable(BottomNavItem.Search.route) { /* Search Screen UI */ }
-            }
-        }
-    }
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    WookieMoviesTheme {
+//        val navController = rememberNavController()
+//
+//        Scaffold(bottomBar = { BottomNavigationBar(navController) }) { padding ->
+//            NavHost(
+//                modifier = Modifier.padding(padding),
+//                navController = navController,
+//                startDestination = BottomNavItem.Home.route,
+//            ) {
+//                composable(BottomNavItem.Home.route) { Greeting(name = "Android") }
+//                composable(BottomNavItem.Search.route) { /* Search Screen UI */ }
+//            }
+//        }
+//    }
+//}
