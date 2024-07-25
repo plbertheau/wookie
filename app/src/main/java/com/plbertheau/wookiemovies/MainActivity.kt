@@ -18,7 +18,9 @@ import androidx.navigation.compose.rememberNavController
 import com.plbertheau.wookiemovies.ui.screen.BottomNavItem
 import com.plbertheau.wookiemovies.ui.screen.BottomNavigationBar
 import com.plbertheau.wookiemovies.ui.theme.WookieMoviesTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
