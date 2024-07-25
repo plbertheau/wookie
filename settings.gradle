@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "wookie-movies"
 include ':app'
+include ':data'
+include ':domain'
