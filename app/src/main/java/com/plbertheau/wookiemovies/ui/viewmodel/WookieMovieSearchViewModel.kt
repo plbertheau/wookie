@@ -6,46 +6,100 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.plbertheau.domain.common.SubmitUiModel
 import com.plbertheau.domain.model.MovieResponse
-import com.plbertheau.domain.repository.WookieMovieListRepository
+import com.plbertheau.domain.usecase.SearchMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import javax.inject.Inject
 
 @HiltViewModel
 class WookieMovieSearchViewModel @Inject constructor(
-    repository: WookieMovieListRepository
+    private val searchMovieUseCase: SearchMovieUseCase
 ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(SearchUiState())
+    val uiState = _uiState.asStateFlow()
 
     var searchQuery by mutableStateOf("")
         private set
 
-    fun onSearchQueryChange(newQuery: String) {
-        searchQuery = newQuery
+    init {
+        initialiseUiState()
     }
 
-    val searchResults: StateFlow<List<MovieResponse>> =
+    fun initialiseUiState() {
         snapshotFlow { searchQuery }
-            .combine(moviesFlow) { searchQuery, movies ->
-                when {
-                    searchQuery.isNotEmpty() -> movies.filter { movie ->
-                        movie.title.contains(searchQuery, ignoreCase = true)
+            .debounce(350L)
+            .onEach { query ->
+                if (query.isNotBlank()) {
+                    _uiState.update {
+                        it.copy(isSearching = true)
                     }
+                    val result = searchMovieUseCase(query)
+                    when (result) {
+                        is SubmitUiModel.Error -> {
+                            _uiState.update {
+                                it.copy(
+                                    errorMessage = result.error,
+                                    isSearching = false
+                                )
+                            }
+                        }
 
-                    else -> movies
+                        is SubmitUiModel.Success -> {
+                            val searchResults = result.data?.toPersistentList()
+
+                            if (searchResults != null) {
+                                _uiState.update {
+                                    it.copy(
+                                        searchResults = searchResults,
+                                        queryHasNoResults = searchResults.isEmpty(),
+                                        isSearching = false,
+                                        errorMessage = null
+                                    )
+                                }
+                            }
+                        }
+
+                        is SubmitUiModel.Loading -> TODO()
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(
+                            searchResults = persistentListOf(),
+                            queryHasNoResults = false,
+                            isSearching = false,
+                            errorMessage = null
+                        )
+                    }
                 }
-            }.stateIn(
-                scope = viewModelScope,
-                initialValue = emptyList(),
-                started = SharingStarted.WhileSubscribed(5_000)
-            )
+            }.launchIn(viewModelScope)
+    }
+
+    fun updateSearchQuery(newQuery: String) {
+        searchQuery = newQuery
+    }
 }
 
-private val moviesFlow = flowOf(
+data class SearchUiState(
+    val searchResults: PersistentList<MovieResponse> = persistentListOf(),
+    val queryHasNoResults: Boolean = false,
+    val errorMessage: String? = null,
+    val isSearching: Boolean = false
+)
+
+private val moviesFlow: Flow<List<MovieResponse>> = flowOf(
     listOf(
         MovieResponse(
             backdrop =

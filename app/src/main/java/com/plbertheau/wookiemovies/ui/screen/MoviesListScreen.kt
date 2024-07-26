@@ -4,10 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -36,7 +37,7 @@ import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieListViewModel
 
 @Composable
 fun MovieListScreen(
-    viewModel: WookieMovieListViewModel = hiltViewModel<WookieMovieListViewModel>(),
+    viewModel: WookieMovieListViewModel,
     navigateToDetail: (String) -> Unit
 ) {
     val pagingItems = viewModel.items.collectAsLazyPagingItems()
@@ -63,7 +64,7 @@ fun ListContent(
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .padding(16.dp)
         )
         Box(
@@ -73,7 +74,7 @@ fun ListContent(
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.Start,
             ) {
                 Genres.entries.forEach {
                     item {
@@ -87,14 +88,15 @@ fun ListContent(
                                 val video = pagingItems[index]
                                 if (video != null) {
                                     if (video.genres.contains(it.genre)) {
-
-
                                         ItemPortrait(
                                             movie = video,
                                             onClick = {
                                                 navigateToDetail(video.id)
                                             },
-                                            modifier = Modifier.fillMaxWidth(),
+                                            modifier = Modifier
+                                                .wrapContentWidth()
+                                                .fillMaxHeight()
+                                                .padding(8.dp),
                                         )
 
                                     }
@@ -102,35 +104,35 @@ fun ListContent(
                             }
                         }
                     }
-                }
-                pagingItems.apply {
-                    when {
-                        loadState.refresh is LoadState.Loading -> {
-                            item { LoadingView(modifier = Modifier.fillParentMaxSize()) }
-                        }
-
-                        loadState.append is LoadState.Loading -> {
-                            item { LoadingItem() }
-                        }
-
-                        loadState.refresh is LoadState.Error -> {
-                            val e = pagingItems.loadState.refresh as LoadState.Error
-                            item {
-                                ErrorItem(
-                                    message = e.error.localizedMessage!!,
-                                    modifier = Modifier.fillParentMaxSize(),
-                                    onClickRetry = { retry() }
-                                )
+                    pagingItems.apply {
+                        when {
+                            loadState.refresh is LoadState.Loading -> {
+                                item { LoadingView(modifier = Modifier.fillParentMaxSize()) }
                             }
-                        }
 
-                        loadState.append is LoadState.Error -> {
-                            val e = pagingItems.loadState.append as LoadState.Error
-                            item {
-                                ErrorItem(
-                                    message = e.error.localizedMessage!!,
-                                    onClickRetry = { retry() }
-                                )
+                            loadState.append is LoadState.Loading -> {
+                                item { LoadingItem() }
+                            }
+
+                            loadState.refresh is LoadState.Error -> {
+                                val e = pagingItems.loadState.refresh as LoadState.Error
+                                item {
+                                    ErrorItem(
+                                        message = e.error.localizedMessage!!,
+                                        modifier = Modifier.fillParentMaxSize(),
+                                        onClickRetry = { retry() }
+                                    )
+                                }
+                            }
+
+                            loadState.append is LoadState.Error -> {
+                                val e = pagingItems.loadState.append as LoadState.Error
+                                item {
+                                    ErrorItem(
+                                        message = e.error.localizedMessage!!,
+                                        onClickRetry = { retry() }
+                                    )
+                                }
                             }
                         }
                     }
@@ -151,7 +153,7 @@ private fun CategoryHeader(
         fontWeight = FontWeight.Bold,
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
             .padding(16.dp)
     )
 }
@@ -164,6 +166,7 @@ fun ItemPortrait(
 ) {
     Box(
         modifier = modifier
+            .wrapContentWidth()
             .clickable { onClick() }
             .padding(bottom = 8.dp, top = 8.dp)
             .clip(shape = RoundedCornerShape(8.dp))
@@ -171,11 +174,10 @@ fun ItemPortrait(
         AsyncImage(
             model = movie.poster,
             modifier = Modifier
-                .width(200.dp),
+                .wrapContentWidth(),
             contentScale = ContentScale.FillHeight,
             contentDescription = null,
         )
-
     }
 }
 

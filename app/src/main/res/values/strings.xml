@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Wookie Movies</string>
+    <string name="empty_state_search_title">Explore movies</string>
+    <string name="empty_state_search_subtitle">Search by name or symbol</string>
 </resources>

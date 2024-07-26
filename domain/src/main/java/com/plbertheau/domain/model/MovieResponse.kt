@@ -9,7 +9,6 @@ data class MovieResponse (
     @field:SerializedName("backdrop") val backdrop: String,
     @field:SerializedName("cast") val cast: List<String>,
     @field:SerializedName("classification") val classification: String,
-//    @field:SerializedName("director") val director: Director,
     @field:SerializedName("genres") val genres: List<String>,
     @field:SerializedName("id") @PrimaryKey val id: String,
     @field:SerializedName("imdb_rating") val imdb_rating: Double,

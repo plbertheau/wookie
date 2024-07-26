@@ -5,8 +5,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.plbertheau.data.Constants.DEFAULT_PAGE
-import com.plbertheau.data.entity.RemoteKeys
 import com.plbertheau.data.room.MovieLocalDB
 import com.plbertheau.domain.model.MovieResponse
 import retrofit2.HttpException
@@ -54,7 +52,7 @@ class WookieMovieRemoteMediator @Inject constructor(
             // parameter. For every page after the first, pass the last user
             // ID to let it continue from where it left off. For REFRESH,
             // pass null to load the first page.
-            val loadKey = when (loadType) {
+            when (loadType) {
                 LoadType.REFRESH -> null
                 // In this example, you never need to prepend, since REFRESH
                 // will always load the first page in the list. Immediately

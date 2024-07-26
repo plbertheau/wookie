@@ -1,25 +1,33 @@
 package com.plbertheau.wookiemovies.ui.screen
 
 
+import androidx.compose.foundation.background
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+
 @Stable
 sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
     data object Home : BottomNavItem("home", Icons.Default.Home, "Home")
     data object Search : BottomNavItem("search", Icons.Default.Search, "Search")
     companion object {
-        fun values():List<BottomNavItem> = listOf(Home, Search)
+        fun values(): List<BottomNavItem> = listOf(Home, Search)
     }
 }
 
@@ -31,6 +39,7 @@ fun BottomNavigationBar(navController: NavController) {
 
         BottomNavItem.values().forEach { item ->
             BottomNavigationItem(
+                modifier = Modifier.background(color = MaterialTheme.colorScheme.primary),
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {

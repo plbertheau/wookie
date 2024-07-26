@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +22,9 @@ import com.plbertheau.wookiemovies.ui.screen.DetailScreen
 import com.plbertheau.wookiemovies.ui.screen.MovieListScreen
 import com.plbertheau.wookiemovies.ui.screen.SearchScreen
 import com.plbertheau.wookiemovies.ui.theme.WookieMoviesTheme
+import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieDetailViewModel
+import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieListViewModel
+import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,16 +42,23 @@ class MainActivity : ComponentActivity() {
                         startDestination = BottomNavItem.Home.route,
                     ) {
                         composable(BottomNavItem.Home.route) {
-                            MovieListScreen { id ->
+                            val viewModel = hiltViewModel<WookieMovieListViewModel>()
+                            MovieListScreen(viewModel = viewModel) { id ->
                                 navController.navigate("detail/$id")
                             }
                         }
-                        composable(BottomNavItem.Search.route) { SearchScreen() }
+                        composable(BottomNavItem.Search.route) {
+                            val viewModel = hiltViewModel<WookieMovieSearchViewModel>()
+                            SearchScreen(viewModel = viewModel){ id ->
+                                navController.navigate("detail/$id")
+                            }
+                        }
                         composable(
                             route = "detail/{id}",
                             arguments = listOf(navArgument("id") { type = NavType.StringType }),
                         ) {
-                            DetailScreen(snackbarHostState)
+                            val viewModel = hiltViewModel<WookieMovieDetailViewModel>()
+                            DetailScreen(viewModel = viewModel, snackbarHostState = snackbarHostState)
                         }
                     }
                 }
@@ -55,30 +66,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    WookieMoviesTheme {
-//        val navController = rememberNavController()
-//
-//        Scaffold(bottomBar = { BottomNavigationBar(navController) }) { padding ->
-//            NavHost(
-//                modifier = Modifier.padding(padding),
-//                navController = navController,
-//                startDestination = BottomNavItem.Home.route,
-//            ) {
-//                composable(BottomNavItem.Home.route) { Greeting(name = "Android") }
-//                composable(BottomNavItem.Search.route) { /* Search Screen UI */ }
-//            }
-//        }
-//    }
-//}
