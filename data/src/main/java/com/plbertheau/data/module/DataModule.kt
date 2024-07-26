@@ -1,15 +1,25 @@
 package com.plbertheau.data.module
 
 import android.content.Context
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
+import com.plbertheau.data.Constants
 import com.plbertheau.data.Constants.BASE_URL
 import com.plbertheau.data.repository.WookieMovieListRepositoryImpl
+import com.plbertheau.data.repository.WookieMovieRepositoryImpl
+import com.plbertheau.data.room.MovieLocalDB
 import com.plbertheau.data.service.CustomEnumDeserializer
 import com.plbertheau.data.service.WookieMovieApi
+import com.plbertheau.data.service.WookieMovieRemoteMediator
 import com.plbertheau.domain.model.Genres
+import com.plbertheau.domain.model.MovieResponse
 import com.plbertheau.domain.repository.WookieMovieListRepository
+import com.plbertheau.domain.repository.WookieMovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,10 +65,54 @@ class DataModule {
     @Provides
     @Singleton
     fun provideWookieMovieListRepository(
-        wookieMovieApi: WookieMovieApi,
+        moviePager: Pager<Int, MovieResponse>
     ): WookieMovieListRepository {
         return WookieMovieListRepositoryImpl(
-            wookieMovieApi = wookieMovieApi
+            moviePager = moviePager
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideWookieMovieRepository(
+        movieLocalDB: MovieLocalDB,
+    ): WookieMovieRepository {
+        return WookieMovieRepositoryImpl(
+            movieLocalDB = movieLocalDB
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideMovieDatabase(@ApplicationContext context: Context): MovieLocalDB {
+        return Room.databaseBuilder(
+            context,
+            MovieLocalDB::class.java,
+            Constants.DATABASE_NAME,
+        ).fallbackToDestructiveMigration().build()
+    }
+
+
+    @OptIn(ExperimentalPagingApi::class)
+    @Provides
+    @Singleton
+    fun provideMoviePager(
+        movieDatabase: MovieLocalDB,
+        api: WookieMovieApi,
+    ): Pager<Int, MovieResponse> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = Constants.DEFAULT_PAGE_SIZE,
+                enablePlaceholders = true,
+                prefetchDistance = 10
+            ),
+            remoteMediator = WookieMovieRemoteMediator(
+                database = movieDatabase,
+                api = api,
+            ),
+            pagingSourceFactory = { movieDatabase.getMovieDao().getAll() },
         )
     }
 }

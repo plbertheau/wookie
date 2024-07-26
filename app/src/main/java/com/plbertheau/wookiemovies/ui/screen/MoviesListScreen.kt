@@ -37,19 +37,19 @@ import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieListViewModel
 @Composable
 fun MovieListScreen(
     viewModel: WookieMovieListViewModel = hiltViewModel<WookieMovieListViewModel>(),
-    navigateToVideo: () -> Unit
+    navigateToDetail: (String) -> Unit
 ) {
     val pagingItems = viewModel.items.collectAsLazyPagingItems()
     ListContent(
         pagingItems = pagingItems,
-        navigateToVideo = navigateToVideo,
+        navigateToDetail = navigateToDetail,
     )
 }
 
 @Composable
 fun ListContent(
     pagingItems: LazyPagingItems<MovieResponse>,
-    navigateToVideo: () -> Unit,
+    navigateToDetail: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -92,7 +92,7 @@ fun ListContent(
                                         ItemPortrait(
                                             movie = video,
                                             onClick = {
-                                                navigateToVideo()
+                                                navigateToDetail(video.id)
                                             },
                                             modifier = Modifier.fillMaxWidth(),
                                         )
@@ -163,7 +163,8 @@ fun ItemPortrait(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
+            .clickable { onClick() }
             .padding(bottom = 8.dp, top = 8.dp)
             .clip(shape = RoundedCornerShape(8.dp))
     ) {

@@ -11,4 +11,5 @@ interface WookieMovieApi {
     )
     @GET("/movies")
     suspend fun getMoviesList(): ResultResponse
+
 }
