@@ -13,6 +13,4 @@ class WookieMovieRepositoryImpl @Inject constructor(private val movieLocalDB: Mo
         val movieResponse = movieLocalDB.getMovieDao().getById(id)
         if (movieResponse != null) emit(Result.Success(movieResponse))
     }
-
-
 }

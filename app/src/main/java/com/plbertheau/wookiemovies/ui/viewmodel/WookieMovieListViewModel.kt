@@ -17,5 +17,4 @@ class WookieMovieListViewModel @Inject constructor(
 
     val items: Flow<PagingData<MovieResponse>> = getMovieListUseCase()
         .cachedIn(viewModelScope)
-
 }

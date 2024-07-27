@@ -1,17 +1,23 @@
 package com.plbertheau.wookiemovies.utils
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
+/**
+ * Extracts the year from a date string.
+ *
+ * @param date The date string in the format "yyyy-MM-dd'T'HH:mm:ss".
+ * @return The year as a string, or an empty string if the input is invalid.
+ */
 fun getYear(date: String): String {
-    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-    val yourDate: Date? = sdf.parse(date)
-    val calendar: Calendar = Calendar.getInstance()
-    if (yourDate != null) {
-        calendar.time = yourDate
+    if (date.isBlank()) return ""
+
+    return try {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val localDate = LocalDate.parse(date,formatter)
+        localDate.year.toString()
+    } catch (e: DateTimeParseException) {
+        ""
     }
-    val year = calendar.get(Calendar.YEAR)
-    return year.toString()
 }
