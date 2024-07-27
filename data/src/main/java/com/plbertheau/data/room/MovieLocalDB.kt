@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.plbertheau.data.Constants.DATABASE_VERSION
 import com.plbertheau.data.entity.RemoteKeys
-import com.plbertheau.domain.model.MovieResponse
+import com.plbertheau.data.model.MovieResponse
 
 @Database(
     entities = [MovieResponse::class, RemoteKeys::class],

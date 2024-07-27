@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(BottomNavItem.Search.route) {
                             val viewModel = hiltViewModel<WookieMovieSearchViewModel>()
-                            SearchScreen(viewModel = viewModel){ id ->
+                            SearchScreen(viewModel = viewModel) { id ->
                                 navController.navigate("detail/$id")
                             }
                         }
@@ -56,7 +56,10 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("id") { type = NavType.StringType }),
                         ) {
                             val viewModel = hiltViewModel<WookieMovieDetailViewModel>()
-                            DetailScreen(viewModel = viewModel, snackbarHostState = snackbarHostState)
+                            DetailScreen(
+                                viewModel = viewModel,
+                                snackbarHostState = snackbarHostState
+                            )
                         }
                     }
                 }

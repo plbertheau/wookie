@@ -30,7 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.plbertheau.domain.model.MovieResponse
+import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.wookiemovies.R
 import com.plbertheau.wookiemovies.ui.screen.error.ErrorItem
 import com.plbertheau.wookiemovies.ui.screen.loading.LoadingView

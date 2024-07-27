@@ -26,8 +26,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.plbertheau.domain.model.Genres
-import com.plbertheau.domain.model.MovieResponse
+import com.plbertheau.data.common.Result
+import com.plbertheau.data.model.Genres
+import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.wookiemovies.ui.screen.error.ErrorItem
 import com.plbertheau.wookiemovies.ui.screen.loading.LoadingItem
 import com.plbertheau.wookiemovies.ui.screen.loading.LoadingView

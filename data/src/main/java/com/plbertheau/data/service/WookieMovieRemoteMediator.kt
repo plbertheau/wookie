@@ -5,8 +5,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.data.room.MovieLocalDB
-import com.plbertheau.domain.model.MovieResponse
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -43,6 +43,7 @@ class WookieMovieRemoteMediator @Inject constructor(
         // triggering remote refresh.
         return InitializeAction.SKIP_INITIAL_REFRESH
     }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, MovieResponse>
@@ -59,6 +60,7 @@ class WookieMovieRemoteMediator @Inject constructor(
                 // return, reporting end of pagination.
                 LoadType.PREPEND ->
                     return MediatorResult.Success(endOfPaginationReached = true)
+
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
 

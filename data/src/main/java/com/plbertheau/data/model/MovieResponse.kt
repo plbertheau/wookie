@@ -1,11 +1,11 @@
-package com.plbertheau.domain.model
+package com.plbertheau.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "movie")
-data class MovieResponse (
+data class MovieResponse(
     @field:SerializedName("backdrop") val backdrop: String,
     @field:SerializedName("cast") val cast: List<String>,
     @field:SerializedName("classification") val classification: String,

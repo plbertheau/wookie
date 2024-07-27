@@ -1,4 +1,4 @@
-package com.plbertheau.domain.model
+package com.plbertheau.data.model
 
 import com.google.gson.annotations.SerializedName
 

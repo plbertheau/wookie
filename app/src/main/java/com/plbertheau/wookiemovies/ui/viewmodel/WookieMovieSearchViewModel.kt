@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.plbertheau.domain.common.SubmitUiModel
-import com.plbertheau.domain.model.MovieResponse
+import com.plbertheau.data.common.Result
+import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.domain.usecase.SearchMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.PersistentList
@@ -47,7 +47,7 @@ class WookieMovieSearchViewModel @Inject constructor(
                         it.copy(isSearching = true)
                     }
                     when (val result = searchMovieUseCase(query)) {
-                        is SubmitUiModel.Error -> {
+                        is Result.Error -> {
                             _uiState.update {
                                 it.copy(
                                     errorMessage = result.error,
@@ -56,7 +56,7 @@ class WookieMovieSearchViewModel @Inject constructor(
                             }
                         }
 
-                        is SubmitUiModel.Success -> {
+                        is Result.Success -> {
                             val searchResults = result.data?.toPersistentList()
 
                             if (searchResults != null) {
@@ -71,7 +71,7 @@ class WookieMovieSearchViewModel @Inject constructor(
                             }
                         }
 
-                        is SubmitUiModel.Loading -> {
+                        is Result.Loading -> {
                             _uiState.update {
                                 it.copy(
                                     searchResults = persistentListOf(),

@@ -2,7 +2,7 @@ package com.plbertheau.data.room
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.plbertheau.domain.model.MovieResponse
+import com.plbertheau.data.model.MovieResponse
 
 @Dao
 interface MovieDao {

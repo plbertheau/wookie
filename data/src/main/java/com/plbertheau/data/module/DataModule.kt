@@ -8,16 +8,16 @@ import androidx.room.Room
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.plbertheau.data.Constants
 import com.plbertheau.data.Constants.BASE_URL
+import com.plbertheau.data.model.MovieResponse
+import com.plbertheau.data.repository.WookieMovieListRepository
 import com.plbertheau.data.repository.WookieMovieListRepositoryImpl
+import com.plbertheau.data.repository.WookieMovieRepository
 import com.plbertheau.data.repository.WookieMovieRepositoryImpl
+import com.plbertheau.data.repository.WookieMovieSearchRepository
 import com.plbertheau.data.repository.WookieMovieSearchRepositoryImpl
 import com.plbertheau.data.room.MovieLocalDB
 import com.plbertheau.data.service.WookieMovieApi
 import com.plbertheau.data.service.WookieMovieRemoteMediator
-import com.plbertheau.domain.model.MovieResponse
-import com.plbertheau.domain.repository.WookieMovieListRepository
-import com.plbertheau.domain.repository.WookieMovieRepository
-import com.plbertheau.domain.repository.WookieMovieSearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,9 +72,10 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideWookieMovieSearchRepository(api: WookieMovieApi
+    fun provideWookieMovieSearchRepository(
+        api: WookieMovieApi
     ): WookieMovieSearchRepository {
-        return WookieMovieSearchRepositoryImpl(api)
+        return WookieMovieSearchRepositoryImpl(api = api)
     }
 
 

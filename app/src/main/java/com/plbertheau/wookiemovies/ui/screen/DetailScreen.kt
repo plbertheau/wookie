@@ -23,8 +23,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.plbertheau.domain.common.SubmitUiModel
-import com.plbertheau.domain.model.MovieResponse
+import com.plbertheau.data.common.Result
+import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieDetailViewModel
 import com.plbertheau.wookiemovies.utils.getYear
 
@@ -36,9 +36,9 @@ fun DetailScreen(
 ) {
     val movieResponse by viewModel.movieResponse.collectAsStateWithLifecycle()
 
-    if (movieResponse is SubmitUiModel.Error<*>) {
+    if (movieResponse is Result.Error<*>) {
         LaunchedEffect(key1 = snackbarHostState) {
-            snackbarHostState.showSnackbar((movieResponse as SubmitUiModel.Error<*>).error)
+            snackbarHostState.showSnackbar((movieResponse as Result.Error<*>).error)
         }
     }
 
@@ -46,7 +46,7 @@ fun DetailScreen(
 }
 
 @Composable
-fun UserDetailContent(movieResponse: SubmitUiModel<MovieResponse>) {
+fun UserDetailContent(movieResponse: Result<MovieResponse>) {
     if (movieResponse.data != null) {
         val movie = movieResponse.data!!
         Column(
@@ -123,7 +123,7 @@ fun UserDetailContent(movieResponse: SubmitUiModel<MovieResponse>) {
         }
 
 
-        if (movieResponse is SubmitUiModel.Loading) {
+        if (movieResponse is Result.Loading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
     }

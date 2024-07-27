@@ -1,6 +1,6 @@
 package com.plbertheau.data.service
 
-import com.plbertheau.domain.model.ResultResponse
+import com.plbertheau.data.model.ResultResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
