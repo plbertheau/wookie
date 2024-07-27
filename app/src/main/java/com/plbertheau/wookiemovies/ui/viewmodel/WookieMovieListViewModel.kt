@@ -15,16 +15,6 @@ class WookieMovieListViewModel @Inject constructor(
     getMovieListUseCase: GetMovieListUseCase
 ) : ViewModel() {
 
-//    val items: Flow<PagingData<MovieResponse>> =
-//        Pager(
-//            config = PagingConfig(
-//                pageSize = Constants.DEFAULT_PAGE_SIZE,
-//                enablePlaceholders = false
-//            ),
-//            pagingSourceFactory = { repository.wookieMoviesPagingSource() }
-//        ).flow.cachedIn(viewModelScope)
-
-
     val items: Flow<PagingData<MovieResponse>> = getMovieListUseCase()
         .cachedIn(viewModelScope)
 
