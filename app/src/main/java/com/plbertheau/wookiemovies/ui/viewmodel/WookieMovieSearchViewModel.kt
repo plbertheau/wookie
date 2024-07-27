@@ -22,6 +22,15 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Wookie Movie Search screen.
+ *
+ * This ViewModel is responsible for managing the state of the search screen,
+ * including the search query, search results, loading state, and error messages.
+ *
+ * @constructor Creates a new instance of {@codeWookieMovieSearchViewModel}.
+ * @param searchMovieUseCase The use case for searching movies.
+ */
 @HiltViewModel
 class WookieMovieSearchViewModel @Inject constructor(
     private val searchMovieUseCase: SearchMovieUseCase
@@ -37,6 +46,11 @@ class WookieMovieSearchViewModel @Inject constructor(
         initialiseUiState()
     }
 
+    /**
+     * Initializes the UI state and sets up a flow to observe changes in the search query.
+     * When the search query changes, it performs a debounced search and updates the UI state
+     * accordingly.
+     */
     @OptIn(FlowPreview::class)
     fun initialiseUiState() {
         snapshotFlow { searchQuery }
@@ -99,6 +113,14 @@ class WookieMovieSearchViewModel @Inject constructor(
     }
 }
 
+/**
+ * Data class representing the UI state of the search screen.
+ *
+ * @param searchResults The list of movie search results.
+ * @param queryHasNoResults Indicates whether the search query returned no results.
+ * @param errorMessage The error message to display, if any.
+ * @param isSearching Indicates whether a search is currentlyin progress.
+ */
 data class SearchUiState(
     val searchResults: PersistentList<MovieResponse> = persistentListOf(),
     val queryHasNoResults: Boolean = false,

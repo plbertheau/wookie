@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -77,54 +76,30 @@ fun UserDetailContent(movieResponse: Result<MovieResponse>) {
                     contentDescription = null,
                 )
             }
-            Text(
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(start = 24.dp, end = 24.dp),
-                text = movie.title,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp),
-                text = getYear(movie.released_on),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            MovieInformations(movie.title)
+            MovieInformations(getYear(movie.released_on))
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp),
-                text = movie.length,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            MovieInformations(movie.length)
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp),
-                text = movie.cast.toString().replace("[","").replace("]",""),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            MovieInformations(movie.cast.toString().replace("[","").replace("]",""))
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp),
-                text = movie.overview,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            MovieInformations(movie.overview)
         }
-
 
         if (movieResponse is Result.Loading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         }
     }
+}
+
+@Composable
+fun MovieInformations(text: String) {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, end = 24.dp),
+        text = text,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onBackground
+    )
 }

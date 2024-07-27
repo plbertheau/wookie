@@ -12,6 +12,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Wookie Movie Detail screen.
+ *
+ * This ViewModel is responsible for fetching and providing details of a specific
+ * movie based on the provided movie ID.
+ *
+ * @constructor Creates a new instance of {@code WookieMovieDetailViewModel}.
+ * @param savedStateHandle The handle to the saved state of the ViewModel.
+ * @param getMovieUseCase The use case for retrieving movie details.*/
 @HiltViewModel
 class WookieMovieDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
