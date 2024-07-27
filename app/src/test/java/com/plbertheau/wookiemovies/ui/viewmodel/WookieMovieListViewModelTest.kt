@@ -7,7 +7,6 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.domain.usecase.GetMovieListUseCase
-import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
