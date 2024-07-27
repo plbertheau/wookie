@@ -1,4 +1,4 @@
-package com.plbertheau.wookiemovies.ui.screen
+package com.plbertheau.wookiemovies.ui.screen.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

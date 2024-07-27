@@ -1,4 +1,4 @@
-package com.plbertheau.wookiemovies
+package com.plbertheau.wookiemovies.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,11 +14,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.plbertheau.wookiemovies.ui.screen.BottomNavItem
-import com.plbertheau.wookiemovies.ui.screen.BottomNavigationBar
-import com.plbertheau.wookiemovies.ui.screen.DetailScreen
-import com.plbertheau.wookiemovies.ui.screen.MovieListScreen
-import com.plbertheau.wookiemovies.ui.screen.SearchScreen
+import com.plbertheau.wookiemovies.ui.screen.navigation.BottomNavItem
+import com.plbertheau.wookiemovies.ui.screen.navigation.BottomNavigationBar
+import com.plbertheau.wookiemovies.ui.screen.detail.DetailScreen
+import com.plbertheau.wookiemovies.ui.screen.list.MovieListScreen
+import com.plbertheau.wookiemovies.ui.screen.search.SearchScreen
 import com.plbertheau.wookiemovies.ui.theme.WookieMoviesTheme
 import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieDetailViewModel
 import com.plbertheau.wookiemovies.ui.viewmodel.WookieMovieListViewModel

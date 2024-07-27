@@ -1,4 +1,4 @@
-package com.plbertheau.wookiemovies.ui.screen
+package com.plbertheau.wookiemovies.ui.screen.navigation
 
 
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package com.plbertheau.wookiemovies.ui.screen
+package com.plbertheau.wookiemovies.ui.screen.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,7 +26,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.plbertheau.data.common.Result
 import com.plbertheau.data.model.Genres
 import com.plbertheau.data.model.MovieResponse
 import com.plbertheau.wookiemovies.ui.screen.error.ErrorItem
